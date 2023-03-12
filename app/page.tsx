@@ -1,6 +1,6 @@
 'use client'
 
-import { useToken } from '../hooks/useTmdbToken'
+import { useToken } from '../hooks/useToken'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
@@ -14,8 +14,6 @@ export default function Home() {
       )
     }
   }
-
-  console.log(token)
 
   return (
     <main>

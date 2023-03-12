@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { useToken } from './useTmdbToken'
 
 type Session = {
-  success: boolean
-  expires_at: string
-  request_token: string
+  session_id?: string
 }
 
-const fetchSession = async (token: string): Promise<Session> => {
+const fetchSession = async (token: string | null): Promise<Session> => {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY
   const bodyData = {
     request_token: token,
@@ -26,6 +23,6 @@ const fetchSession = async (token: string): Promise<Session> => {
   return data
 }
 
-export function useSession(token) {
+export function useSession(token: string | null) {
   return useQuery(['session'], () => fetchSession(token), { enabled: !!token })
 }

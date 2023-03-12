@@ -1,4 +1,4 @@
-import './globals.css'
+import '../styles/globals.css'
 import React, { ReactNode } from 'react'
 import QueryProvider from '../components/QueryProvider'
 

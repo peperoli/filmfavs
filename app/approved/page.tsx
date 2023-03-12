@@ -1,12 +1,18 @@
 'use client'
 
+import { PopularityChart } from '@/components/PopularityChart'
 import { useRatedMovies } from '../../hooks/useRatedMovies'
 
-export default function Home() {
-  const { data: ratedMovies } = useRatedMovies()
+export default function Approved() {
+  const { data: ratedMovies, status } = useRatedMovies()
+
+  console.log(status)
+
   return (
     <main>
-      <pre>{JSON.stringify(ratedMovies.map(page => page.results).flat().map(item => item.title), null, 2)}</pre>
+      {ratedMovies && (
+        <PopularityChart data={ratedMovies} />
+      )}
     </main>
   )
 }
