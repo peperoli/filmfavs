@@ -4,10 +4,7 @@ import { PopularityChart } from '@/components/PopularityChart'
 import { useRatedMovies } from '../../hooks/useRatedMovies'
 
 export default function Approved() {
-  const { data: ratedMovies, status } = useRatedMovies()
-
-  console.log(status)
-
+  const { data: ratedMovies } = useRatedMovies()
   return (
     <main>
       {ratedMovies && (
