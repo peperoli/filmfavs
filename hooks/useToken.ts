@@ -16,6 +16,6 @@ const fetchToken = async (): Promise<string> => {
   return data.request_token
 }
 
-export function useToken() {
-  return useQuery(['Token'], fetchToken)
+export function useToken(clicked: boolean) {
+  return useQuery(['token'], fetchToken, { enabled: !!clicked })
 }
