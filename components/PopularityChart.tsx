@@ -43,7 +43,7 @@ export const PopularityChart: FC<PopularityChartProps> = ({ data }) => {
   return (
     <section>
       <h2>Ratings by popularity</h2>
-      <div className="relative flex items-stretch gap-1 w-full h-64 border-b border-blue-500">
+      <div className="relative flex items-stretch gap-1 w-full h-64 pb-3 border-b border-blue-500 overflow-auto">
         {popCounts.sort(compare).map(item => (
           <div key={item.id} className="flex-1 flex flex-col justify-end items-center group">
             <button

@@ -5,7 +5,11 @@ module.exports = {
     fontFamily: {
       sans: ['var(--sono-font)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      aspectRatio: {
+        '2/3': '2 / 3',
+      }
+    },
     container: {
       center: true,
     },
