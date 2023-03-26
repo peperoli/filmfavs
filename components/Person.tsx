@@ -1,8 +1,9 @@
 import { usePerson } from '../hooks/usePerson'
 import Image from 'next/legacy/image'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { CastCredit } from '@/types/types'
 import { StarIcon, VideoIcon } from '@radix-ui/react-icons'
+import { PersonModal } from './PersonModal'
 
 interface CreditProps {
   credit: CastCredit
@@ -42,46 +43,62 @@ interface PersonProps {
 
 export const Person: FC<PersonProps> = ({ personId, count, ratedMovieIds }) => {
   const { data: person } = usePerson(personId)
+  const [isOpen, setIsOpen] = useState(false)
   const ratedMovieCredits = person?.movie_credits?.cast.filter(item =>
     ratedMovieIds.includes(item.id)
   )
   return (
-    <div className="flex gap-6 w-full">
-      <div className="relative flex-shrink-0 w-32 aspect-2/3">
-        {person?.profile_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
-            alt={person.name}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
-          />
-        )}
-      </div>
-      <div>
-        <h3 className='text-xl font-black'>
-          {person?.name}{' '}
-          <span className="font-normal text-white/50">
-            {person?.birthday?.slice(0, 4)}
-            {person?.deathday ? ` – ${person.deathday.slice(0, 4)}` : ''}
-          </span>
-        </h3>
-        <p>
-          <VideoIcon className="inline" /> {count} movies you saw
-        </p>
-        <h4 className="mt-4">Highest Rated Movies</h4>
-        <div className="overflow-auto">
-          <ul className="flex gap-4">
-            {ratedMovieCredits
-              ?.sort((a, b) => b.vote_average - a.vote_average)
-              .slice(0, 5)
-              .map(item => (
-                <Credit key={item.id} credit={item} />
-              ))}
-          </ul>
+    <>
+      <div className="flex gap-6 w-full">
+        <div className="relative flex-shrink-0 w-32 aspect-2/3">
+          {person?.profile_path && (
+            <Image
+              src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+              alt={person.name}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+              blurDataURL={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
+            />
+          )}
+        </div>
+        <div>
+          <h3 className="text-xl font-black">
+            {person?.name}{' '}
+            <span className="font-normal text-white/50">
+              {person?.birthday?.slice(0, 4)}
+              {person?.deathday ? ` – ${person.deathday.slice(0, 4)}` : ''}
+            </span>
+          </h3>
+          <p>
+            <VideoIcon className="inline" /> {count} movies you saw
+          </p>
+          <div className="flex justify-between gap-4">
+            <h4 className="mt-4">Highest Rated Movies</h4>
+            <button onClick={() => setIsOpen(true)}>See all</button>
+          </div>
+          <div className="overflow-auto">
+            <ul className="flex flex-nowrap gap-4">
+              {ratedMovieCredits
+                ?.sort(
+                  (a, b) => Number(b.vote_average) - Number(a.vote_average)
+                )
+                .slice(0, 5)
+                .map(item => (
+                  <Credit key={item.id} credit={item} />
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+      {person && ratedMovieCredits && (
+        <PersonModal
+          person={person}
+          ratedMovieCredits={ratedMovieCredits}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+      )}
+    </>
   )
 }
