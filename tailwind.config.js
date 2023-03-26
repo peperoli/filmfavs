@@ -10,9 +10,11 @@ module.exports = {
         '2/3': '2 / 3',
       }
     },
-    container: {
-      center: true,
-    },
   },
-  plugins: [],
+  corePlugins: {
+    container: false,
+  },
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

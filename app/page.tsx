@@ -27,7 +27,7 @@ export default function Home() {
         <div>
           <button
             onClick={() => setClicked(true)}
-            className="bg-black text-white px-4 py-2 text-lg disabled:opacity-50"
+            className="bg-white text-black/90 px-4 py-2 text-lg disabled:opacity-50"
             disabled={fetchStatus === 'fetching'}
           >
             Let&apos;s Go!

@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <QueryProvider>
       <html lang="en">
-        <body className={`font-sans ${sono.variable}`}>{children}</body>
+        <body className={`font-sans ${sono.variable} text-white bg-black/90`}>{children}</body>
       </html>
     </QueryProvider>
   )
