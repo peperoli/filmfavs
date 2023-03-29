@@ -5,17 +5,21 @@ module.exports = {
     fontFamily: {
       sans: ['var(--sono-font)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
-    color: {
+    colors: {
       black: '#000',
       white: '#FFF',
       gray: {
-        80: '#2D2D2D',
-        90: '#1A1A1A',
+        800: '#2D2D2D',
+        900: '#1A1A1A',
       },
       transparent: 'transparent',
       current: 'currentColor',
     },
     extend: {
+      spacing: {
+        112: '28rem',
+        128: '32rem',
+      },
       aspectRatio: {
         '2/3': '2 / 3',
       }

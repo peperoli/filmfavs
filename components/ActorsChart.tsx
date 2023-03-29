@@ -13,23 +13,23 @@ export const ActorsChart: FC<ActorsChartProps> = ({ ratedMovies }) => {
   const creditQueries = useCredits(ratedMovieIds)
 
   function calculateCastCreditCounts(movieCredits: any[]) {
-    const castCreditCounts: { id: number; count: number }[] = []
+    const castCreditCounts: { [key: number]: number } = {}
+
     for (let index = 0; index < movieCredits.length; index++) {
       const castCredits = movieCredits[index].data?.cast || []
 
       for (let index = 0; index < castCredits.length; index++) {
         const castCredit = castCredits[index]
-        const found = castCreditCounts.find(item => item.id === castCredit.id)        
 
-        if (!found) {
-          castCreditCounts.push({ id: castCredit.id, count: 1 })
+        if (!castCreditCounts[castCredit.id]) {
+          castCreditCounts[castCredit.id] = 1
         } else {
-          found.count += 1
+          castCreditCounts[castCredit.id] += 1
         }
       }
     }
 
-    return castCreditCounts
+    return Object.entries(castCreditCounts).map(([id, count]) => ({ id: Number(id), count }))
   }
 
   const progress =
@@ -52,9 +52,16 @@ export const ActorsChart: FC<ActorsChartProps> = ({ ratedMovies }) => {
         <>
           <div className="grid gap-6">
             {topActors?.map(item => (
-              <Person key={item.id} personId={item.id} count={item.count} ratedMovieIds={ratedMovieIds} />
+              <Person key={item.id} personId={item.id} ratedMovieIds={ratedMovieIds} />
             ))}
-            <button onClick={() => setVisibleItems(prev => (prev += 25))}>View more</button>
+            <div className="flex justify-center">
+              <button
+                onClick={() => setVisibleItems(prev => (prev += 25))}
+                className="flex items-center gap-2 px-3 py-1.5 border border-white bg-gray-900"
+              >
+                View more
+              </button>
+            </div>
           </div>
         </>
       )}

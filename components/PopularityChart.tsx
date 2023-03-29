@@ -41,17 +41,17 @@ export const PopularityChart: FC<PopularityChartProps> = ({ data }) => {
     }
   }
   return (
-    <section>
+    <section className='container'>
       <h2>Ratings by popularity</h2>
       <div className="relative flex items-stretch gap-1 w-full h-64 pb-3 border-b border-blue-500 overflow-auto">
         {popCounts.sort(compare).map(item => (
           <div key={item.id} className="flex-1 flex flex-col justify-end items-center group">
             <button
               onClick={() => setSelected(item.id)}
-              className="w-2 bg-blue-500"
+              className="w-2 bg-white"
               style={{ height: (item.count / highestCount) * 100 + '%' }}
             />
-            <div className="absolute w-max px-1 border border-black bg-white shadow-lg pointer-events-none invisible group-hover:visible">
+            <div className="absolute w-max px-1 border border-white bg-gray-900 shadow-lg pointer-events-none invisible group-hover:visible">
               <strong>{item.id * 10}</strong>
               <br />
               {item.count}

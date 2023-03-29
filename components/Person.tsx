@@ -11,7 +11,7 @@ interface CreditProps {
 
 const Credit: FC<CreditProps> = ({ credit }) => {
   return (
-    <li className="flex items-center gap-4 w-56 p-1 pr-4 border border-white">
+    <li className="flex-shrink-0 flex items-center gap-4 p-1 pr-4 border border-white">
       <div className="relative flex-shrink-0 w-14 aspect-2/3">
         {credit?.poster_path && (
           <Image
@@ -37,11 +37,10 @@ const Credit: FC<CreditProps> = ({ credit }) => {
 
 interface PersonProps {
   personId: number
-  count: number
   ratedMovieIds: number[]
 }
 
-export const Person: FC<PersonProps> = ({ personId, count, ratedMovieIds }) => {
+export const Person: FC<PersonProps> = ({ personId, ratedMovieIds }) => {
   const { data: person } = usePerson(personId)
   const [isOpen, setIsOpen] = useState(false)
   const ratedMovieCredits = person?.movie_credits?.cast.filter(item =>
@@ -50,19 +49,19 @@ export const Person: FC<PersonProps> = ({ personId, count, ratedMovieIds }) => {
   return (
     <>
       <div className="flex gap-6 w-full">
-        <div className="relative flex-shrink-0 w-32 aspect-2/3">
+        <button onClick={() => setIsOpen(true)} className="relative flex-shrink-0 w-32 aspect-2/3">
           {person?.profile_path && (
             <Image
-              src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+              src={`https://image.tmdb.org/t/p/w154${person.profile_path}`}
               alt={person.name}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
-              blurDataURL={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
+              blurDataURL={`https://image.tmdb.org/t/p/w92${person.profile_path}`}
             />
           )}
-        </div>
-        <div>
+        </button>
+        <div className='grow'>
           <h3 className="text-xl font-black">
             {person?.name}{' '}
             <span className="font-normal text-white/50">
@@ -71,24 +70,22 @@ export const Person: FC<PersonProps> = ({ personId, count, ratedMovieIds }) => {
             </span>
           </h3>
           <p>
-            <VideoIcon className="inline" /> {count} movies you saw
+            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you saw
           </p>
-          <div className="flex justify-between gap-4">
-            <h4 className="mt-4">Highest Rated Movies</h4>
-            <button onClick={() => setIsOpen(true)}>See all</button>
+          <div className="flex justify-between gap-4 mt-4">
+            <h4>Highest Rated Movies</h4>
+            <button onClick={() => setIsOpen(true)} className="underline">
+              See all
+            </button>
           </div>
-          <div className="overflow-auto">
-            <ul className="flex flex-nowrap gap-4">
-              {ratedMovieCredits
-                ?.sort(
-                  (a, b) => Number(b.vote_average) - Number(a.vote_average)
-                )
-                .slice(0, 5)
-                .map(item => (
-                  <Credit key={item.id} credit={item} />
-                ))}
-            </ul>
-          </div>
+          <ul className="grid grid-cols-4 gap-4 w-full">
+            {ratedMovieCredits
+              ?.sort((a, b) => Number(b.vote_average) - Number(a.vote_average))
+              .slice(0, 4)
+              .map(item => (
+                <Credit key={item.id} credit={item} />
+              ))}
+          </ul>
         </div>
       </div>
       {person && ratedMovieCredits && (

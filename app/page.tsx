@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     if (status === 'success') {
       router.push(
-        `https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/approved`
+        `https://www.themoviedb.org/authenticate/${token}?redirect_to=http://localhost:3000/most-seen`
       )
       setClicked(false)
     }
