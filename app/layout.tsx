@@ -10,7 +10,7 @@ const sono = Sono({
 
 export const metadata = {
   title: 'FilmFavs',
-  description: 'Explore who your favourite actory and directors are.',
+  description: 'Explore who your favourite actors and directors are.',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

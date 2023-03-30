@@ -25,7 +25,7 @@ const Credit: FC<CreditProps> = ({ credit }) => {
       </div>
       <div className="grow text-sm">
         <h5 className="line-clamp-2">{credit.title}</h5>
-        <p className='text-white/50'>{credit.character}</p>
+        <p className='text-white/50'>{credit.job ? credit.job : credit.character}</p>
         <p>
           <StarIcon className="inline" /> {String(credit.vote_average).slice(0, 3)}
         </p>

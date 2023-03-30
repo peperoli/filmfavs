@@ -12,7 +12,7 @@ interface CreditProps {
 const Credit: FC<CreditProps> = ({ credit }) => {
   return (
     <li className="flex-shrink-0 flex items-center gap-4 p-1 pr-4 border border-white">
-      <div className="relative flex-shrink-0 w-14 aspect-2/3">
+      <div className="relative flex-shrink-0 w-14 aspect-2/3 bg-gray-800">
         {credit?.poster_path && (
           <Image
             src={`https://image.tmdb.org/t/p/w185${credit.poster_path}`}
@@ -38,18 +38,19 @@ const Credit: FC<CreditProps> = ({ credit }) => {
 interface PersonProps {
   personId: number
   ratedMovieIds: number[]
+  department?: 'Directing' | 'Sound'
 }
 
-export const Person: FC<PersonProps> = ({ personId, ratedMovieIds }) => {
+export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department }) => {
   const { data: person } = usePerson(personId)
   const [isOpen, setIsOpen] = useState(false)
-  const ratedMovieCredits = person?.movie_credits?.cast.filter(item =>
-    ratedMovieIds.includes(item.id)
-  )
+  const ratedMovieCredits = department
+    ? person?.movie_credits?.crew.filter(item => item.department === department && ratedMovieIds.includes(item.id))
+    : person?.movie_credits?.cast.filter(item => ratedMovieIds.includes(item.id))
   return (
     <>
       <div className="flex gap-6 w-full">
-        <button onClick={() => setIsOpen(true)} className="relative flex-shrink-0 w-32 aspect-2/3">
+        <button onClick={() => setIsOpen(true)} className="relative flex-shrink-0 w-32 aspect-2/3 bg-gray-800">
           {person?.profile_path && (
             <Image
               src={`https://image.tmdb.org/t/p/w154${person.profile_path}`}
