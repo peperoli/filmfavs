@@ -38,17 +38,19 @@ const Credit: FC<CreditProps> = ({ credit }) => {
 interface PersonProps {
   personId: number
   ratedMovieIds: number[]
-  department?: 'Directing' | 'Sound'
-  job?: string | null
+  department?: string
+  jobs?: string[]
 }
 
-export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, job }) => {
+export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, jobs }) => {
   const { data: person } = usePerson(personId)
   const [isOpen, setIsOpen] = useState(false)
   const ratedMovieCredits = department
     ? person?.movie_credits?.crew.filter(
         item =>
-          item.department === department && (item.job === job || !job) && ratedMovieIds.includes(item.id)
+          item.department === department &&
+          ((item.job && jobs?.includes(item.job)) || !jobs) &&
+          ratedMovieIds.includes(item.id)
       )
     : person?.movie_credits?.cast.filter(item => ratedMovieIds.includes(item.id))
   return (
@@ -80,7 +82,7 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
             </span>
           </h3>
           <p>
-            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you've seen
+            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you&apos;ve seen
           </p>
           <div className="flex justify-between gap-4 mt-4">
             <h4>Highest Rated Movies</h4>
@@ -101,7 +103,6 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
       {person && ratedMovieCredits && (
         <PersonModal
           person={person}
-          ratedMovieCredits={ratedMovieCredits}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         />

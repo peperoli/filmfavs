@@ -6,16 +6,16 @@ import { useAccount } from '../hooks/useAccount'
 import React, { Fragment } from 'react'
 import { Tab } from '@headlessui/react'
 import { useCredits } from '../hooks/useCredits'
-import { ActingChart } from './ActingChart'
-import { DirectingChart } from './DirectingChart'
-import { SoundChart } from './SoundChart'
+import { PeopleChart } from './PeopleChart'
+import { jobs } from '@/lib/jobs'
 
 export const MostSeen = () => {
   const { data: ratedMovies } = useRatedMovies()
   const { data: account } = useAccount()
   const ratedMovieIds = ratedMovies?.map(item => item.id) || []
   const creditQueries = useCredits(ratedMovieIds)
-  const tabs = ['Acting', 'Directing', 'Sound', 'By Popularity']
+  const departments = ['Acting', 'Directing', 'Writing', 'Production', 'Camera', 'Sound']
+  const tabs = [...departments, 'By Popularity']
   return (
     <main>
       <nav className="container py-6 flex justify-between gap-6">
@@ -40,9 +40,18 @@ export const MostSeen = () => {
           ))}
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel>{ratedMovieIds && <ActingChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
-          <Tab.Panel>{ratedMovieIds && <DirectingChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
-          <Tab.Panel>{ratedMovieIds && <SoundChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
+          {departments.map(department => (
+            <Tab.Panel key={department}>
+              {ratedMovieIds && (
+                <PeopleChart
+                  ratedMovieIds={ratedMovieIds}
+                  creditQueries={creditQueries}
+                  department={department === 'Acting' ? undefined : department}
+                  jobs={jobs && jobs[department.toLowerCase()]}
+                />
+              )}
+            </Tab.Panel>
+          ))}
           <Tab.Panel>{ratedMovies && <PopularityChart data={ratedMovies} />}</Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

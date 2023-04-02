@@ -1,0 +1,46 @@
+export const jobs = {
+  directing: [
+    { name: 'Director', value: ['Director'] },
+    {
+      name: 'Assistant Director',
+      value: ['Assistant Director', 'First Assistant Director', 'Second Assistand Director'],
+    },
+  ],
+  production: [
+    { name: 'Producer', value: ['Producer'] },
+    { name: 'Executive Producer', value: ['Executive Producer'] },
+    { name: 'Casting', value: ['Casting'] },
+  ],
+  writing: [
+    { name: 'Writer', value: ['Writer'] },
+    { name: 'Screenplay', value: ['Screenplay'] },
+    { name: 'Story', value: ['Story'] },
+    { name: 'Novel', value: ['Novel'] },
+    { name: 'Comic Book', value: ['Comic Book'] },
+    { name: 'Characters', value: ['Characters'] },
+  ],
+  camera: [{ name: 'Director of Photography', value: ['Director of Photography'] }],
+  sound: [
+    {
+      name: 'Original Music Composer',
+      value: ['Original Music Composer', 'Main Title Theme Composer'],
+    },
+    { name: 'Songs', value: ['Songs'] },
+    { name: 'Music', value: ['Music'] },
+    { name: 'Music Editor', value: ['Music Editor'] },
+    { name: 'Music Supervisor', value: ['Music Supervisor'] },
+    { name: 'Musician', value: ['Musician'] },
+    { name: 'Music Producer', value: ['Music Producer'] },
+    { name: 'Music Arranger', value: ['Music Arranger'] },
+    { name: 'Sound Designer', value: ['Sound Designer'] },
+    { name: 'Sound Re-Recording Mixer', value: ['Sound Re-Recording Mixer'] },
+    { name: 'Sound Editor', value: ['Sound Editor'] },
+    { name: 'Supervising Sound Editor', value: ['Supervising Sound Editor'] },
+    { name: 'Sound Effects Editor', value: ['Sound Effects Editor'] },
+    { name: 'Sound Mixer', value: ['Sound Mixer'] },
+    { name: 'Foley Artist', value: ['Foley Artist'] },
+    { name: 'Foley Editor', value: ['Foley Editor'] },
+    { name: 'ADR', value: ['ADR Mixer', 'ADR Recordist', 'ADR Editor'] },
+    { name: 'Dialogue Editor', value: ['Dialogue Editor'] },
+  ],
+} as { [key: string]: { name: string; value: string[] }[] }

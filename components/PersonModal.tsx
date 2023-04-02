@@ -3,6 +3,7 @@ import { Person, PersonMovieCredit } from '../types/types'
 import { Modal } from './Modal'
 import { ExternalLinkIcon, PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
+import { useRatedMovies } from '@/hooks/useRatedMovies'
 
 interface CreditProps {
   credit: PersonMovieCredit
@@ -25,30 +26,32 @@ const Credit: FC<CreditProps> = ({ credit }) => {
       </div>
       <div className="grow text-sm">
         <h5 className="line-clamp-2">{credit.title}</h5>
-        <p className='text-white/50'>{credit.job ? credit.job : credit.character}</p>
+        <p className="text-white/50">
+          {credit.job} {credit.character}
+        </p>
         <p>
           <StarIcon className="inline" /> {String(credit.vote_average).slice(0, 3)}
         </p>
       </div>
-        <p className="text-white/50">{credit.release_date.slice(0, 4)}</p>
-
+      <p className="text-white/50">{credit.release_date.slice(0, 4)}</p>
     </li>
   )
 }
 
 interface PersonModalProps {
   person: Person
-  ratedMovieCredits: PersonMovieCredit[]
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const PersonModal: FC<PersonModalProps> = ({
-  person,
-  ratedMovieCredits,
-  isOpen,
-  setIsOpen,
-}) => {
+export const PersonModal: FC<PersonModalProps> = ({ person, isOpen, setIsOpen }) => {
+  const { data: ratedMovies } = useRatedMovies()
+  const ratedMovieIds = ratedMovies?.map(movie => movie.id)
+  const castCredits = person?.movie_credits?.cast || []
+  const crewCredits = person?.movie_credits?.crew || []
+  const ratedMovieCredits = [...castCredits, ...crewCredits].filter(item =>
+    ratedMovieIds?.includes(item.id)
+  )
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person.name}>
       <div className="flex gap-6">
@@ -91,7 +94,7 @@ export const PersonModal: FC<PersonModalProps> = ({
             The Movie DB profile <ExternalLinkIcon className="inline" />
           </a>
           <p>
-            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you saw
+            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you&apos;ve seen
           </p>
         </div>
       </div>
