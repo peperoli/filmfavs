@@ -4,18 +4,18 @@ import { PopularityChart } from '@/components/PopularityChart'
 import { useRatedMovies } from '../hooks/useRatedMovies'
 import { useAccount } from '../hooks/useAccount'
 import React, { Fragment } from 'react'
-import { ActorsChart } from './ActorsChart'
-import { DirectorsChart } from './DirectorsChart'
-import { ComposersChart } from './ComposersChart'
 import { Tab } from '@headlessui/react'
 import { useCredits } from '../hooks/useCredits'
+import { ActingChart } from './ActingChart'
+import { DirectingChart } from './DirectingChart'
+import { SoundChart } from './SoundChart'
 
 export const MostSeen = () => {
   const { data: ratedMovies } = useRatedMovies()
   const { data: account } = useAccount()
   const ratedMovieIds = ratedMovies?.map(item => item.id) || []
   const creditQueries = useCredits(ratedMovieIds)
-  const tabs = ['Acting', 'Directing', 'Sound', 'By Year']
+  const tabs = ['Acting', 'Directing', 'Sound', 'By Popularity']
   return (
     <main>
       <nav className="container py-6 flex justify-between gap-6">
@@ -40,9 +40,9 @@ export const MostSeen = () => {
           ))}
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel>{ratedMovieIds && <ActorsChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
-          <Tab.Panel>{ratedMovieIds && <DirectorsChart ratedMovieIds={ratedMovieIds} />}</Tab.Panel>
-          <Tab.Panel>{ratedMovieIds && <ComposersChart ratedMovieIds={ratedMovieIds} />}</Tab.Panel>
+          <Tab.Panel>{ratedMovieIds && <ActingChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
+          <Tab.Panel>{ratedMovieIds && <DirectingChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
+          <Tab.Panel>{ratedMovieIds && <SoundChart ratedMovieIds={ratedMovieIds} creditQueries={creditQueries} />}</Tab.Panel>
           <Tab.Panel>{ratedMovies && <PopularityChart data={ratedMovies} />}</Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

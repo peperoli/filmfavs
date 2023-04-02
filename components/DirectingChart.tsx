@@ -1,43 +1,24 @@
-import { useCredits } from '../hooks/useCredits'
 import { FC, useMemo, useState } from 'react'
 import { Person } from './Person'
 import { Button } from './Button'
 import { FilterButton } from './Button'
+import { UseQueryResult } from '@tanstack/react-query'
+import { MovieCredits } from '@/types/types'
+import { calculateCreditCounts } from '@/helpers/calculateCreditCounts'
 
-interface DirectorsChartProps {
+interface DirectingChartProps {
   ratedMovieIds: number[]
+  creditQueries: UseQueryResult<MovieCredits, unknown>[]
 }
 
-export const DirectorsChart: FC<DirectorsChartProps> = ({ ratedMovieIds }) => {
+export const DirectingChart: FC<DirectingChartProps> = ({ ratedMovieIds, creditQueries }) => {
   const [visibleItems, setVisibleItems] = useState(25)
   const [selectedJob, setSelectedJob] = useState<string | null>('Director')
-
-  const creditQueries = useCredits(ratedMovieIds)
-
-  function calculateCrewCreditCounts(movieCredits: any[]) {
-    const crewCreditCounts: { [key: number]: number } = {}
-
-    for (let index = 0; index < movieCredits.length; index++) {
-      const crewCredits = movieCredits[index].data?.crew || []
-
-      for (let index = 0; index < crewCredits.length; index++) {
-        const crewCredit = crewCredits[index]
-
-        if (!crewCreditCounts[crewCredit.id] && crewCredit.department === 'Directing' && (crewCredit.job === selectedJob || !selectedJob)) {
-          crewCreditCounts[crewCredit.id] = 1
-        } else if (crewCredit.department === 'Directing' && (crewCredit.job === selectedJob || !selectedJob)) {
-          crewCreditCounts[crewCredit.id] += 1
-        }
-      }
-    }
-
-    return Object.entries(crewCreditCounts).map(([id, count]) => ({ id: Number(id), count }))
-  }
 
   const progress =
     (creditQueries.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100
   const isSuccess = progress === 100
-  const creditCounts = useMemo(() => calculateCrewCreditCounts(creditQueries), [isSuccess, selectedJob])
+  const creditCounts = useMemo(() => calculateCreditCounts(creditQueries, 'Directing', selectedJob), [isSuccess, selectedJob])
 
   const topCredits =
     progress === 100
@@ -60,7 +41,7 @@ export const DirectorsChart: FC<DirectorsChartProps> = ({ ratedMovieIds }) => {
         </div>
           <div className="grid gap-6">
             {topCredits?.map(item => (
-              <Person key={item.id} personId={item.id} ratedMovieIds={ratedMovieIds} department="Directing" />
+              <Person key={item.id} personId={item.id} ratedMovieIds={ratedMovieIds} department="Directing" job={selectedJob} />
             ))}
             <div className="flex justify-center">
               <Button label="View more" onClick={() => setVisibleItems(prev => (prev += 25))} />

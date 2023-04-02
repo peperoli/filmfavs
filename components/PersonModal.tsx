@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, FC } from 'react'
-import { Person, CastCredit } from '../types/types'
+import { Person, PersonMovieCredit } from '../types/types'
 import { Modal } from './Modal'
-import { ExternalLinkIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
+import { ExternalLinkIcon, PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
 
 interface CreditProps {
-  credit: CastCredit
+  credit: PersonMovieCredit
 }
 
 const Credit: FC<CreditProps> = ({ credit }) => {
@@ -38,7 +38,7 @@ const Credit: FC<CreditProps> = ({ credit }) => {
 
 interface PersonModalProps {
   person: Person
-  ratedMovieCredits: CastCredit[]
+  ratedMovieCredits: PersonMovieCredit[]
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
@@ -52,8 +52,8 @@ export const PersonModal: FC<PersonModalProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person.name}>
       <div className="flex gap-6">
-        <div className="relative flex-shrink-0 w-48 aspect-2/3">
-          {person?.profile_path && (
+        <div className="relative flex-shrink-0 grid place-content-center w-48 aspect-2/3 bg-gray-800">
+          {person?.profile_path ? (
             <Image
               src={`https://image.tmdb.org/t/p/h632${person.profile_path}`}
               alt={person.name}
@@ -62,6 +62,8 @@ export const PersonModal: FC<PersonModalProps> = ({
               placeholder="blur"
               blurDataURL={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
             />
+          ) : (
+            <PersonIcon className="w-6 h-6 text-white/50" />
           )}
         </div>
         <div>

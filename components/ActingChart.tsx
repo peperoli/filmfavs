@@ -1,40 +1,40 @@
-import { useCredits } from '../hooks/useCredits'
 import { FC, useMemo, useState } from 'react'
 import { Person } from './Person'
+import { MovieCredits } from '../types/types'
+import { UseQueryResult } from '@tanstack/react-query'
 
-interface ComposersChartProps {
+interface ActingChartProps {
   ratedMovieIds: number[]
+  creditQueries: UseQueryResult<MovieCredits, unknown>[]
 }
 
-export const ComposersChart: FC<ComposersChartProps> = ({ ratedMovieIds }) => {
+export const ActingChart: FC<ActingChartProps> = ({ ratedMovieIds, creditQueries }) => {
   const [visibleItems, setVisibleItems] = useState(25)
 
-  const creditQueries = useCredits(ratedMovieIds)
-
-  function calculateCrewCreditCounts(movieCredits: any[]) {
-    const crewCreditCounts: { [key: number]: number } = {}
+  function calculateCastCreditCounts(movieCredits: any[]) {
+    const castCreditCounts: { [key: number]: number } = {}
 
     for (let index = 0; index < movieCredits.length; index++) {
-      const crewCredits = movieCredits[index].data?.crew || []
+      const castCredits = movieCredits[index].data?.cast || []
 
-      for (let index = 0; index < crewCredits.length; index++) {
-        const crewCredit = crewCredits[index]
+      for (let index = 0; index < castCredits.length; index++) {
+        const castCredit = castCredits[index]
 
-        if (!crewCreditCounts[crewCredit.id] && crewCredit.department === 'Sound') {
-          crewCreditCounts[crewCredit.id] = 1
-        } else if (crewCredit.department === 'Sound') {
-          crewCreditCounts[crewCredit.id] += 1
+        if (!castCreditCounts[castCredit.id]) {
+          castCreditCounts[castCredit.id] = 1
+        } else {
+          castCreditCounts[castCredit.id] += 1
         }
       }
     }
 
-    return Object.entries(crewCreditCounts).map(([id, count]) => ({ id: Number(id), count }))
+    return Object.entries(castCreditCounts).map(([id, count]) => ({ id: Number(id), count }))
   }
 
   const progress =
     (creditQueries.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100
   const isSuccess = progress === 100
-  const castCreditCounts = useMemo(() => calculateCrewCreditCounts(creditQueries), [isSuccess])
+  const castCreditCounts = useMemo(() => calculateCastCreditCounts(creditQueries), [isSuccess])
 
   const topActors =
     progress === 100
@@ -51,7 +51,7 @@ export const ComposersChart: FC<ComposersChartProps> = ({ ratedMovieIds }) => {
         <>
           <div className="grid gap-6">
             {topActors?.map(item => (
-              <Person key={item.id} personId={item.id} ratedMovieIds={ratedMovieIds} department="Sound" />
+              <Person key={item.id} personId={item.id} ratedMovieIds={ratedMovieIds} />
             ))}
             <div className="flex justify-center">
               <button

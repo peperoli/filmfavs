@@ -36,8 +36,7 @@ export type MovieCredits = {
   crew: Person[]
 }
 
-export type CastCredit = {
-  character: string
+export type PersonMovieCredit = {
   credit_id: string
   release_date: string
   vote_count: number
@@ -53,11 +52,15 @@ export type CastCredit = {
   backdrop_path: string | null
   overview: string
   poster_path: string | null
+  character?: string
+  department?: string
+  job?: string
 }
 
 type WithMovieCredits = {
   movie_credits?: {
-    cast: CastCredit[]
+    cast: PersonMovieCredit[]
+    crew: PersonMovieCredit[]
   }
 }
 
