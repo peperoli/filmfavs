@@ -102,7 +102,7 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
       </div>
       {person && ratedMovieCredits && (
         <PersonModal
-          person={person}
+          personId={person.id}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         />

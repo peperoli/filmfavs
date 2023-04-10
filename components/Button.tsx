@@ -1,17 +1,22 @@
-import { FC} from 'react'
+import { IconProps } from '@radix-ui/react-icons/dist/types'
+import { FC } from 'react'
 
 type ButtonProps = {
   label: string
   onClick: () => void
+  icon?: IconProps
 }
 
-export const Button: FC<ButtonProps> = ({ label, onClick }) => {
+export const Button: FC<ButtonProps> = ({ label, onClick, icon }) => {
   return (
     <button
       onClick={onClick}
       className="flex items-center gap-2 px-3 py-1.5 border border-white bg-gray-900"
     >
-      {label}
+      <>
+        {icon}
+        <span>{label}</span>
+      </>
     </button>
   )
 }
@@ -22,7 +27,9 @@ export const FilterButton: FC<FilterButtonProps> = ({ label, onClick, isSelected
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-3 py-1.5 border border-white${isSelected ? ' text-gray-900 bg-white' : ' bg-gray-900'}`}
+      className={`flex items-center gap-2 px-3 py-1.5 border border-white${
+        isSelected ? ' text-gray-900 bg-white' : ' bg-gray-900'
+      }`}
     >
       {label}
     </button>

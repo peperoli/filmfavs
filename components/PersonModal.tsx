@@ -4,6 +4,7 @@ import { Modal } from './Modal'
 import { ExternalLinkIcon, PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
 import { useRatedMovies } from '@/hooks/useRatedMovies'
+import { usePerson } from '@/hooks/usePerson'
 
 interface CreditProps {
   credit: PersonMovieCredit
@@ -39,12 +40,13 @@ const Credit: FC<CreditProps> = ({ credit }) => {
 }
 
 interface PersonModalProps {
-  person: Person
+  personId: number
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const PersonModal: FC<PersonModalProps> = ({ person, isOpen, setIsOpen }) => {
+export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen }) => {
+  const { data: person } = usePerson(personId)
   const { data: ratedMovies } = useRatedMovies()
   const ratedMovieIds = ratedMovies?.map(movie => movie.id)
   const castCredits = person?.movie_credits?.cast || []
@@ -53,7 +55,7 @@ export const PersonModal: FC<PersonModalProps> = ({ person, isOpen, setIsOpen })
     ratedMovieIds?.includes(item.id)
   )
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person.name}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person?.name ?? ''}>
       <div className="flex gap-6">
         <div className="relative flex-shrink-0 grid place-content-center w-48 aspect-2/3 bg-gray-800">
           {person?.profile_path ? (

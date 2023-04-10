@@ -2,27 +2,22 @@
 
 import { PopularityChart } from '@/components/PopularityChart'
 import { useRatedMovies } from '../hooks/useRatedMovies'
-import { useAccount } from '../hooks/useAccount'
 import React, { Fragment } from 'react'
 import { Tab } from '@headlessui/react'
 import { useCredits } from '../hooks/useCredits'
 import { PeopleChart } from './PeopleChart'
 import { jobs } from '@/lib/jobs'
+import { NavBar } from './NavBar'
 
 export const MostSeen = () => {
   const { data: ratedMovies } = useRatedMovies()
-  const { data: account } = useAccount()
   const ratedMovieIds = ratedMovies?.map(item => item.id) || []
   const creditQueries = useCredits(ratedMovieIds)
   const departments = ['Acting', 'Directing', 'Writing', 'Production', 'Camera', 'Sound']
   const tabs = [...departments, 'By Popularity']
   return (
     <main>
-      <nav className="container py-6 flex justify-between gap-6">
-        <div>FilmFavs</div>
-        <div>Most Seen</div>
-        <div>{account?.username}</div>
-      </nav>
+      <NavBar headline="Most Seen" />
       <Tab.Group>
         <Tab.List className="container pb-0 flex items-end border-b border-white">
           {tabs.map(item => (
