@@ -95,12 +95,12 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
               ?.sort((a, b) => Number(b.vote_average) - Number(a.vote_average))
               .slice(0, 4)
               .map(item => (
-                <Credit key={item.id} credit={item} />
+                <Credit key={item.credit_id} credit={item} />
               ))}
           </ul>
         </div>
       </div>
-      {person && ratedMovieCredits && (
+      {person?.id && (
         <PersonModal
           personId={person.id}
           isOpen={isOpen}
