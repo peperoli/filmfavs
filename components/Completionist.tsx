@@ -31,14 +31,27 @@ export const Completionist = () => {
     }))
   }
 
-  const collections = useMemo(() => calculateCollections(movies), [])
+  const progress =
+    (movies.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100
+  const isSuccess = progress === 100
+
+  const collections = useMemo(() => calculateCollections(movies), [isSuccess])
+
+  function compareCollections(a: {id: number, movieIds: number[]}, b: {id: number, movieIds: number[]}) {
+    if (a.movieIds.length < b.movieIds.length) {
+      return 1
+    } else if (a.movieIds.length > b.movieIds.length) {
+      return -1
+    }
+    return 0
+  }
 
   const [visibleItems, setVisibleItems] = useState(25)
   return (
     <>
       <NavBar headline="Most Seen" />
       <main className="container grid gap-4">
-        {collections?.slice(0, visibleItems).map(collection => (
+        {collections?.sort(compareCollections).slice(0, visibleItems).map(collection => (
           <Collection id={collection.id} ratedMovieIds={collection.movieIds} key={collection.id} />
         ))}
         <Button onClick={() => setVisibleItems(prev => (prev += 25))} label="Show more" />

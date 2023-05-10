@@ -5,7 +5,6 @@ import { useDebounce } from './useDebounce'
 const fetchPerson = async function (searchQuery?: string): Promise<PeopleSearchPage> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY
   searchQuery = searchQuery && encodeURI(searchQuery)
-  console.log('fetching')
 
   const response = await fetch(
     `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${searchQuery}`
