@@ -41,7 +41,7 @@ export function useRatedMovies() {
 
   useEffect(() => {
     if (status === "success" && session?.session_id) {
-      setCookies("session_id", session.session_id)
+      setCookies("session_id", session.session_id, { maxAge: 3600 * 24 * 30 })
     }
   }, [status])
   return useQuery(["ratedMovies"], () => fetchRatedMovies(sessionId), {

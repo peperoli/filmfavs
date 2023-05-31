@@ -3,13 +3,18 @@
 import { useToken } from '../hooks/useToken'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
-export const Landing = () => {
+type LandingProps = {
+  sessionId?: RequestCookie
+}
+
+export const Landing = ({ sessionId }: LandingProps) => {
   const [clicked, setClicked] = useState(false)
   const router = useRouter()
   const { data: token, status, fetchStatus } = useToken(clicked)
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-  
+
   useEffect(() => {
     if (status === 'success') {
       router.push(
@@ -28,7 +33,7 @@ export const Landing = () => {
         <h1 className="mb-8 text-7xl font-black">Your ratings and favourites</h1>
         <div>
           <button
-            onClick={() => setClicked(true)}
+            onClick={() => (sessionId ? router.push('/most-seen') : setClicked(true))}
             className="bg-white text-black/90 px-4 py-2 text-lg disabled:opacity-50"
             disabled={fetchStatus === 'fetching'}
           >

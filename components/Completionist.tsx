@@ -37,7 +37,10 @@ export const Completionist = () => {
 
   const collections = useMemo(() => calculateCollections(movies), [isSuccess])
 
-  function compareCollections(a: {id: number, movieIds: number[]}, b: {id: number, movieIds: number[]}) {
+  function compareCollections(
+    a: { id: number; movieIds: number[] },
+    b: { id: number; movieIds: number[] }
+  ) {
     if (a.movieIds.length < b.movieIds.length) {
       return 1
     } else if (a.movieIds.length > b.movieIds.length) {
@@ -51,10 +54,26 @@ export const Completionist = () => {
     <>
       <NavBar headline="Most Seen" />
       <main className="container grid gap-4">
-        {collections?.sort(compareCollections).slice(0, visibleItems).map(collection => (
-          <Collection id={collection.id} ratedMovieIds={collection.movieIds} key={collection.id} />
-        ))}
-        <Button onClick={() => setVisibleItems(prev => (prev += 25))} label="Show more" />
+        {progress !== 100 ? (
+          <div className="flex items-center">
+            <progress value={progress} max="100" />
+            <p>Loading {Math.ceil(progress)}%</p>
+          </div>
+        ) : (
+          <>
+            {collections
+              ?.sort(compareCollections)
+              .slice(0, visibleItems)
+              .map(collection => (
+                <Collection
+                  id={collection.id}
+                  ratedMovieIds={collection.movieIds}
+                  key={collection.id}
+                />
+              ))}
+            <Button onClick={() => setVisibleItems(prev => (prev += 25))} label="Show more" />
+          </>
+        )}
       </main>
     </>
   )
