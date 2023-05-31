@@ -12,6 +12,12 @@ module.exports = {
         800: '#2D2D2D',
         900: '#1A1A1A',
       },
+      aqua: {
+        300: '#61F2C2',
+      },
+      yellow: {
+        400: '#F2F230',
+      },
       transparent: 'transparent',
       current: 'currentColor',
     },

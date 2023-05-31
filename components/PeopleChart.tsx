@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react'
 import { Person } from './Person'
 import { UseQueryResult } from '@tanstack/react-query'
-import { MovieCredits } from '@/types/types'
+import { MovieCredits } from '@/types/TMDB'
 import { calculateCreditCounts } from '@/lib/calculateCreditCounts'
 import { FilterButton } from './Button'
 

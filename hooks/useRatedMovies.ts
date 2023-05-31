@@ -3,7 +3,7 @@ import { useSession } from "./useSession"
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 import { useCookies } from "react-cookie"
-import { RatedMovie } from "@/types/types"
+import { RatedMovie } from "@/types/TMDB"
 
 const fetchRatedMovies = async (sessionId?: string): Promise<RatedMovie[]> => {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY

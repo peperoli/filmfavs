@@ -1,4 +1,4 @@
-import { RatedMovie } from '@/types/types'
+import { RatedMovie } from '@/types/TMDB'
 import { FC, useState } from 'react'
 
 interface PopularityChartProps {

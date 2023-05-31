@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Person } from '../types/types';
+import { Person } from '../types/TMDB';
 
 const fetchPerson = function fetchPersonDetails(personId: number): Promise<Person> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;

@@ -1,39 +1,9 @@
 import { usePerson } from '../hooks/usePerson'
 import Image from 'next/legacy/image'
 import { FC, useState } from 'react'
-import { PersonMovieCredit } from '@/types/types'
-import { PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
+import { PersonIcon, VideoIcon } from '@radix-ui/react-icons'
 import { PersonModal } from './PersonModal'
-
-interface CreditProps {
-  credit: PersonMovieCredit
-}
-
-const Credit: FC<CreditProps> = ({ credit }) => {
-  return (
-    <li className="flex-shrink-0 flex items-center gap-4 p-1 pr-4 border border-white">
-      <div className="relative flex-shrink-0 w-14 aspect-2/3 bg-gray-800">
-        {credit?.poster_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w185${credit.poster_path}`}
-            alt={credit.poster_path}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={`https://image.tmdb.org/t/p/w45${credit.poster_path}`}
-          />
-        )}
-      </div>
-      <div className="text-sm">
-        <h5 className="line-clamp-2">{credit.title}</h5>
-        <p>
-          <StarIcon className="inline" /> {String(credit.vote_average).slice(0, 3)}
-        </p>
-        <p className="text-white/50">{credit.release_date.slice(0, 4)}</p>
-      </div>
-    </li>
-  )
-}
+import { Movie } from './Movie'
 
 interface PersonProps {
   personId: number
@@ -95,7 +65,7 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
               ?.sort((a, b) => Number(b.vote_average) - Number(a.vote_average))
               .slice(0, 4)
               .map(item => (
-                <Credit key={item.credit_id} credit={item} />
+                <Movie key={item.credit_id} movie={item} />
               ))}
           </ul>
         </div>

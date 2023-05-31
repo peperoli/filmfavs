@@ -12,6 +12,15 @@ export type Account = {
   username: string
 }
 
+export type AccountStates = {
+  id: number
+  favorite: boolean
+  rated: {
+    value: number
+  }
+  watchlist: boolean
+}
+
 export type Person = {
   adult: boolean
   also_known_as: string[]

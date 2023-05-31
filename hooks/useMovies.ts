@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query'
-import { Movie } from '../types/types'
+import { Movie } from '../types/TMDB'
 
 const fetchMovieById = async (movieId: number): Promise<Movie> => {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY

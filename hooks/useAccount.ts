@@ -1,4 +1,4 @@
-import { Account } from "../types/types"
+import { Account } from "../types/TMDB"
 import { useQuery } from "@tanstack/react-query"
 import { useCookies } from "react-cookie"
 

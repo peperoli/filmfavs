@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { PeopleSearchPage } from '../types/types'
+import { PeopleSearchPage } from '../types/TMDB'
 import { useDebounce } from './useDebounce'
 
 const fetchPerson = async function (searchQuery?: string): Promise<PeopleSearchPage> {

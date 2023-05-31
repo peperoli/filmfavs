@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Collection } from '../types/types';
+import { Collection } from '../types/TMDB';
 
 async function fetchCollection(id: number): Promise<Collection> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;

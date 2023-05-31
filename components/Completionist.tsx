@@ -53,7 +53,7 @@ export const Completionist = () => {
   return (
     <>
       <NavBar headline="Most Seen" />
-      <main className="container grid gap-4">
+      <main className="container grid gap-8">
         {progress !== 100 ? (
           <div className="flex items-center">
             <progress value={progress} max="100" />

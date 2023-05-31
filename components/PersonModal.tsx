@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, FC, useState } from 'react'
-import { PersonMovieCredit } from '../types/types'
+import { PersonMovieCredit } from '../types/TMDB'
 import { Modal } from './Modal'
 import { ExternalLinkIcon, PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'

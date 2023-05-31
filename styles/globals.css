@@ -4,6 +4,6 @@
 
 @layer components {
   .container {
-    @apply max-w-6xl mx-auto p-8;
+    @apply max-w-7xl mx-auto p-8;
   }
 }

@@ -1,5 +1,5 @@
 import { usePeopleSearch } from '@/hooks/usePeopleSearch'
-import { PeopleSearchResult } from '@/types/types'
+import { PeopleSearchResult } from '@/types/TMDB'
 import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
 import { Dispatch, FC, SetStateAction, useState } from 'react'
