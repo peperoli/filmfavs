@@ -1,7 +1,10 @@
 export interface Account {
-  avatar: {
-    gravatar: {
+  avatar?: {
+    gravatar?: {
       hash: string
+    },
+    tmdb?: {
+      avatar_path: string
     }
   }
   id: number

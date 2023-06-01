@@ -17,7 +17,7 @@ export const MostSeen = () => {
   const tabs = [...departments, 'By Popularity']
   return (
     <main>
-      <NavBar headline="Most Seen" />
+      <NavBar />
       <Tab.Group>
         <Tab.List className="container pb-0 flex items-end border-b border-white">
           {tabs.map(item => (

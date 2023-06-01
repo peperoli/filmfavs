@@ -52,7 +52,7 @@ export const Completionist = () => {
   const [visibleItems, setVisibleItems] = useState(25)
   return (
     <>
-      <NavBar headline="Most Seen" />
+      <NavBar />
       <main className="container grid gap-8">
         {progress !== 100 ? (
           <div className="flex items-center">
