@@ -1,45 +1,10 @@
 import { Dispatch, SetStateAction, FC, useState } from 'react'
-import { PersonMovieCredit } from '../types/TMDB'
 import { Modal } from './Modal'
-import { ExternalLinkIcon, PersonIcon, StarIcon, VideoIcon } from '@radix-ui/react-icons'
+import { ExternalLinkIcon, PersonIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
 import { useRatedMovies } from '@/hooks/useRatedMovies'
 import { usePerson } from '@/hooks/usePerson'
-
-interface CreditProps {
-  credit: PersonMovieCredit
-}
-
-const Credit: FC<CreditProps> = ({ credit }) => {
-  return (
-    <li className="flex items-start gap-4 py-2 pr-4 border-t border-white/10">
-      <div className="relative flex-shrink-0 w-14 aspect-2/3">
-        {credit?.poster_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w154${credit.poster_path}`}
-            alt={credit.poster_path}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={`https://image.tmdb.org/t/p/w92${credit.poster_path}`}
-          />
-        )}
-      </div>
-      <div className="grow text-sm">
-        <h5 className="line-clamp-2">{credit.title}</h5>
-        <p className="text-white/50">
-          {credit.job}
-          {credit.job && credit.character && <> &bull; </>}
-          <i>{credit.character}</i>
-        </p>
-        <p>
-          <StarIcon className="inline" /> {String(credit.vote_average).slice(0, 3)}
-        </p>
-      </div>
-      <p className="text-white/50">{credit.release_date.slice(0, 4)}</p>
-    </li>
-  )
-}
+import { Movie } from './Movie'
 
 interface PersonModalProps {
   personId: number
@@ -105,7 +70,7 @@ export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen 
             </a>
           </div>
           <p className="mb-4">
-            <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you&apos;ve seen
+            <VideoIcon className="inline" /> {ratedMovieCredits?.length} credits you&apos;ve seen
           </p>
           <p className={`text-sm${isCollapsed ? ' line-clamp-6' : ''}`}>{person?.biography}</p>
           <button onClick={() => setIsCollapsed(!isCollapsed)} className="underline">
@@ -122,7 +87,7 @@ export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen 
               Number(a.release_date.replaceAll('-', ''))
           )
           .map(item => (
-            <Credit key={item.credit_id} credit={item} />
+            <Movie key={item.credit_id} movie={item} />
           ))}
       </ul>
     </Modal>

@@ -1,4 +1,4 @@
-export type Account = {
+export interface Account {
   avatar: {
     gravatar: {
       hash: string
@@ -12,7 +12,7 @@ export type Account = {
   username: string
 }
 
-export type AccountStates = {
+export interface AccountStates {
   id: number
   favorite: boolean
   rated: {
@@ -21,7 +21,7 @@ export type AccountStates = {
   watchlist: boolean
 }
 
-export type Person = {
+export interface Person {
   adult: boolean
   also_known_as: string[]
   biography: string
@@ -36,15 +36,19 @@ export type Person = {
   place_of_birth: string | null
   popularity: number
   profile_path: string | null
-} & WithMovieCredits
+  movie_credits?: {
+    cast: PersonMovieCredit[]
+    crew: PersonMovieCredit[]
+  }
+}
 
-export type MovieCredits = {
+export interface MovieCredits {
   id: number
   cast: Person[]
   crew: Person[]
 }
 
-export type PersonMovieCredit = {
+export interface PersonMovieCredit {
   credit_id: string
   release_date: string
   vote_count: number
@@ -63,13 +67,6 @@ export type PersonMovieCredit = {
   character?: string
   department?: string
   job?: string
-}
-
-type WithMovieCredits = {
-  movie_credits?: {
-    cast: PersonMovieCredit[]
-    crew: PersonMovieCredit[]
-  }
 }
 
 export interface Movie {
@@ -148,7 +145,7 @@ export interface SpokenLanguage {
   name: string
 }
 
-export type RatedMovie = {
+export interface RatedMovie {
   adult: boolean
   backdrop_path: string
   genre_ids: number[]
@@ -166,7 +163,7 @@ export type RatedMovie = {
   rating: number
 }
 
-type RatedMoviesPage = {
+interface RatedMoviesPage {
   page: number
   results: RatedMovie[]
   total_pages: number
@@ -201,7 +198,7 @@ export interface KnownFor {
   original_title: string
   overview: string
   poster_path: string
-  media_type: string
+  media_interface: string
   genre_ids: number[]
   popularity: number
   release_date: string

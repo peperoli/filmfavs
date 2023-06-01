@@ -5,17 +5,17 @@ import clsx from 'clsx'
 import Image from 'next/legacy/image'
 
 type MovieProps = {
-  movie: Part | PersonMovieCredit
+  movie: (Part & { job?: string; character?: string }) | PersonMovieCredit
 }
 
 export const Movie = ({ movie }: MovieProps) => {
-  const { data: movieStates } = useMovieStates(movie.id)
+  const { data: movieStates, status } = useMovieStates(movie.id)
 
   return (
     <li
       className={clsx(
         'flex-shrink-0 flex items-center gap-4 pt-2 pr-4 border-t border-white/10',
-        !movieStates?.rated && 'opacity-50 hover:opacity-100'
+        status !== 'loading' && !movieStates?.rated && 'opacity-50 hover:opacity-100'
       )}
     >
       <div className="relative flex-shrink-0 w-14 aspect-2/3 bg-gray-800">
@@ -35,8 +35,10 @@ export const Movie = ({ movie }: MovieProps) => {
           </div>
         )}
       </div>
-      <div className="text-sm">
+      <div className="text-sm overflow-hidden">
         <h5 className="line-clamp-2">{movie.title}</h5>
+        {movie.job && <p className="truncate text-white/50">{movie.job}</p>}
+        {movie.character && <p className="truncate italic text-white/50">{movie.character}</p>}
         <div className="flex gap-2">
           <div className="flex gap-1 items-center">
             <StarIcon /> {String(movie.vote_average).slice(0, 3)}
