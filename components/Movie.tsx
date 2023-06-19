@@ -6,19 +6,21 @@ import Image from 'next/legacy/image'
 
 type MovieProps = {
   movie: (Part & { job?: string; character?: string }) | PersonMovieCredit
+  fixedWidth?: boolean
 }
 
-export const Movie = ({ movie }: MovieProps) => {
+export const Movie = ({ movie, fixedWidth }: MovieProps) => {
   const { data: movieStates, status } = useMovieStates(movie.id)
 
   return (
     <li
       className={clsx(
-        'flex-shrink-0 flex items-center gap-4 pt-2 pr-4 border-t border-white/10',
+        'flex gap-4 flex-none md:w-auto pt-2 pr-4 border-t border-white/10',
+        fixedWidth && 'w-64',
         status !== 'loading' && !movieStates?.rated && 'opacity-50 hover:opacity-100'
       )}
     >
-      <div className="relative flex-shrink-0 w-14 aspect-2/3 bg-gray-800">
+      <div className="relative flex-shrink-0 w-16 aspect-2/3 bg-gray-800">
         {movie?.poster_path && (
           <Image
             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}

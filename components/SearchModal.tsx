@@ -55,7 +55,7 @@ export const SearchModal: FC<SearchModalProps> = ({ isOpen, setIsOpen }) => {
   const { data: peopleSearchResults } = usePeopleSearch(query)
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={`Results for "${query}"`}>
-      <h2 className="mb-4 text-xl font-black">Search for people</h2>
+      <h2 className="mb-4 text-xl font-extrabold">Search for people</h2>
       <div className="relative flex items-center mb-4">
         <MagnifyingGlassIcon className="absolute ml-4" />
         <input

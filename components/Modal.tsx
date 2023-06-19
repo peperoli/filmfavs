@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, ReactNode, FC, useState, useRef } from 'react
 interface ModalProps {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
-  headline: string
+  headline?: string
   children: ReactNode
 }
 
@@ -24,8 +24,8 @@ export const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, headline, children })
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
       <div className="fixed inset-0 bg-black/50 backdrop-saturate-0" aria-hidden="true" />
-      <div className="fixed inset-0 left-auto p-6">
-        <Dialog.Panel className="relative flex flex-col w-128 max-h-full max-w-full border border-white bg-gray-900">
+      <div className="fixed inset-0 md:left-auto md:p-6">
+        <Dialog.Panel className="relative flex flex-col md:w-128 max-h-full max-w-full border border-white bg-gray-900">
           <div className={`flex justify-between items-center gap-4 px-8 py-4${isScrolled ? ' bg-gray-800' : ''}`}>
             <div className={`font-bold${isScrolled ? '' : ' opacity-0'}`}>{headline}</div>
             <button
@@ -36,7 +36,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, headline, children })
               Close
             </button>
           </div>
-          <div ref={scrollContainer} onScroll={handleScroll} className="p-8 pt-0 overflow-auto">
+          <div ref={scrollContainer} onScroll={handleScroll} className="p-8 pt-0 overflow-y-auto">
             {children}
           </div>
         </Dialog.Panel>

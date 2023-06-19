@@ -71,7 +71,9 @@ export const Completionist = () => {
                   key={collection.id}
                 />
               ))}
-            <Button onClick={() => setVisibleItems(prev => (prev += 25))} label="Show more" />
+            <div className="flex justify-center">
+              <Button onClick={() => setVisibleItems(prev => (prev += 25))} label="Show more" />
+            </div>
           </>
         )}
       </main>

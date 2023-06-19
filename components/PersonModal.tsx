@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, FC, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Modal } from './Modal'
 import { ExternalLinkIcon, PersonIcon, VideoIcon } from '@radix-ui/react-icons'
 import Image from 'next/legacy/image'
 import { useRatedMovies } from '@/hooks/useRatedMovies'
 import { usePerson } from '@/hooks/usePerson'
 import { Movie } from './Movie'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 interface PersonModalProps {
   personId: number
@@ -12,21 +13,22 @@ interface PersonModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen }) => {
+export const PersonModal = ({ personId, isOpen, setIsOpen }: PersonModalProps) => {
   const { data: person } = usePerson(personId)
   const { data: ratedMovies } = useRatedMovies()
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const ratedMovieIds = ratedMovies?.map(movie => movie.id)
+  const ratedMovieIds = ratedMovies?.map(movie => movie?.id)
   const castCredits = person?.movie_credits?.cast || []
   const crewCredits = person?.movie_credits?.crew || []
   const ratedMovieCredits = [...castCredits, ...crewCredits].filter(item =>
     ratedMovieIds?.includes(item.id)
   )
+  const isDesktop = useMediaQuery('(min-width: 768px)')
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person?.name ?? ''}>
       <div className="flex items-start gap-6">
         <div
-          className={`relative flex-shrink-0 place-content-center w-48 aspect-2/3 bg-gray-800${
+          className={`relative flex-shrink-0 place-content-center w-36 md:w-48 aspect-2/3 bg-gray-800${
             isCollapsed ? ' grid' : ' hidden'
           }`}
         >
@@ -44,14 +46,14 @@ export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen 
           )}
         </div>
         <div>
-          <h3 className="text-xl font-black">
-            {person?.name}{' '}
-            <span className="font-normal text-white/50">
+          <div className="flex flex-col md:flex-row md:items-end md:gap-3">
+            <h3 className="text-xl font-extrabold">{person?.name}</h3>
+            <p className="text-white/50">
               {person?.birthday?.slice(0, 4)}
               {person?.deathday ? ` – ${person.deathday.slice(0, 4)}` : ''}
-            </span>
-          </h3>
-          <div className="flex gap-4">
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-4">
             <a
               href={`https://www.imdb.com/name/${person?.imdb_id}`}
               className="underline"
@@ -72,14 +74,14 @@ export const PersonModal: FC<PersonModalProps> = ({ personId, isOpen, setIsOpen 
           <p className="mb-4">
             <VideoIcon className="inline" /> {ratedMovieCredits?.length} credits you&apos;ve seen
           </p>
-          <p className={`text-sm${isCollapsed ? ' line-clamp-6' : ''}`}>{person?.biography}</p>
+          <p className={`text-sm${isCollapsed ? ' hidden md:block md:line-clamp-6' : ''}`}>{person?.biography}</p>
           <button onClick={() => setIsCollapsed(!isCollapsed)} className="underline">
             {isCollapsed ? 'Show more' : 'Show less'}
           </button>
         </div>
       </div>
       <h4 className="mt-4 mb-2">Your Rated Movies</h4>
-      <ul className="grid">
+      <ul className="flex flex-col gap-2">
         {ratedMovieCredits
           ?.sort(
             (a, b) =>

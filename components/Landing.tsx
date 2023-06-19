@@ -4,6 +4,7 @@ import { useToken } from '../hooks/useToken'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import { Logo } from './Logo'
 
 type LandingProps = {
   sessionId?: RequestCookie
@@ -29,8 +30,9 @@ export const Landing = ({ sessionId }: LandingProps) => {
 
   return (
     <main>
-      <div className="container grid place-content-center h-screen mx-auto">
-        <h1 className="mb-8 text-7xl font-black">Your ratings and favourites</h1>
+      <div className="container grid place-content-center h-screen mx-12 md:mx-16">
+        <Logo className="w-auto h-12 md:h-16 mb-8" />
+        <h1 className="mb-8 md:text-7xl">Your ratings and favourites</h1>
         <div>
           <button
             onClick={() => (sessionId ? router.push('/most-seen') : setClicked(true))}
