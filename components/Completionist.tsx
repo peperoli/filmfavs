@@ -6,10 +6,11 @@ import { useMovies } from '../hooks/useMovies'
 import { Collection } from './Collection'
 import { NavBar } from './NavBar'
 import { Button } from './Button'
+import { Footer } from './Footer'
 
 export const Completionist = () => {
   const { data: ratedMovies } = useRatedMovies()
-  const ratedMovieIds = ratedMovies?.map(item => item.id) || []
+  const ratedMovieIds = ratedMovies?.map(item => item?.id) || []
   const movies = useMovies(ratedMovieIds)
 
   const calculateCollections = function (movies: any[]) {
@@ -77,6 +78,7 @@ export const Completionist = () => {
           </>
         )}
       </main>
+      <Footer />
     </>
   )
 }

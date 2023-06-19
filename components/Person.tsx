@@ -26,7 +26,7 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
     : person?.movie_credits?.cast.filter(item => ratedMovieIds.includes(item.id))
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const movieCreditsGrid = (
-      <ul className="flex md:grid md:grid-cols-4 gap-4 -mx-6 mt-4 px-6 overflow-x-auto">
+      <ul className="flex md:grid md:grid-cols-4 gap-4 -mx-6 mt-2 md:mt-4 px-6 overflow-x-auto">
         {ratedMovieCredits
           ?.sort((a, b) => Number(b.vote_average) - Number(a.vote_average))
           .slice(0, 4)

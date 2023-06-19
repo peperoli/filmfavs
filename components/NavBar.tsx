@@ -68,8 +68,8 @@ export const NavBar = () => {
   ]
   return (
     <>
-      <nav className="container grid md:hidden grid-cols-3 items-center">
-        <div className="flex">
+      <nav className="container sticky z-10 grid md:hidden grid-cols-3 items-center top-0 py-4 bg-gray-900">
+        <div className="flex -ml-3">
           <button
             aria-label="Open menu"
             onClick={() => setMenuIsOpen(true)}

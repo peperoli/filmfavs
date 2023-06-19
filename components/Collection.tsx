@@ -23,7 +23,7 @@ export const Collection = ({ id, ratedMovieIds }: CollectionProps) => {
       </div>
       <ul
         className={clsx(
-          'grid grid-flow-col md:grid-flow-row md:grid-cols-4 gap-2 -mx-6 px-6 overflow-x-auto',
+          'grid grid-flow-col md:grid-flow-row md:grid-rows-none md:grid-cols-4 gap-2 -mx-6 px-6 overflow-x-auto',
           releasedParts.length > 6 ? 'grid-rows-3' : 'grid-rows-2'
         )}
       >
