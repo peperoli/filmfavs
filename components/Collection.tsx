@@ -53,8 +53,8 @@ export const Collection = ({ id, ratedMovieIds }: CollectionProps) => {
           )}
         </div>
         <div className="relative grow">
-          <div className="flex flex-wrap items-end gap-x-3">
-            <h3 className="mb-2 text-xl font-extrabold">{collection?.name}</h3>
+          <div className="flex flex-wrap items-end gap-x-3 mb-2">
+            <h3 className="text-xl font-extrabold">{collection?.name}</h3>
             <span className="font-normal text-white/50">
               {ratedMovieIds.length}/{releasedParts.length}
             </span>

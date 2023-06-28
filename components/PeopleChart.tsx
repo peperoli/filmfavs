@@ -21,7 +21,7 @@ export const PeopleChart: FC<PeopleChartProps> = ({
   const [selectedJob, setSelectedJob] = useState<string | null | undefined>(jobs && jobs[0].name)
   const [visibleItems, setVisibleItems] = useState(25)
   const progress =
-    (creditQueries.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100
+    (creditQueries?.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100 || 0
   const isSuccess = progress === 100
   const creditCounts = useMemo(
     () => calculateCreditCounts(creditQueries, department, jobs?.find(item => item.name === selectedJob)?.value),
@@ -29,7 +29,6 @@ export const PeopleChart: FC<PeopleChartProps> = ({
   )
   const topPeople =
     progress === 100 ? creditCounts.sort((a, b) => b.count - a.count).slice(0, visibleItems) : null
-
   return (
     <section className="container">
       {progress !== 100 ? (

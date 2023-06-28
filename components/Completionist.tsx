@@ -33,7 +33,7 @@ export const Completionist = () => {
   }
 
   const progress =
-    (movies.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100
+    (movies.filter(item => item.status === 'success').length / ratedMovieIds.length) * 100 || 0
   const isSuccess = progress === 100
 
   const collections = useMemo(() => calculateCollections(movies), [isSuccess])

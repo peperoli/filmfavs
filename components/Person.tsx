@@ -1,10 +1,11 @@
 import { usePerson } from '../hooks/usePerson'
 import Image from 'next/legacy/image'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { PersonIcon, VideoIcon } from '@radix-ui/react-icons'
 import { PersonModal } from './PersonModal'
 import { Movie } from './Movie'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { mergeCreditsByMovie } from '@/lib/mergeCreditsByMovie'
 
 interface PersonProps {
   personId: number
@@ -13,27 +14,29 @@ interface PersonProps {
   jobs?: string[]
 }
 
-export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, jobs }) => {
+export const Person = ({ personId, ratedMovieIds, department, jobs }: PersonProps) => {
   const { data: person } = usePerson(personId)
   const [isOpen, setIsOpen] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true)
   const ratedMovieCredits = department
     ? person?.movie_credits?.crew.filter(
-        item =>
-          item.department === department &&
-          ((item.job && jobs?.includes(item.job)) || !jobs) &&
-          ratedMovieIds.includes(item.id)
+        movieCredit =>
+          movieCredit.department === department &&
+          ((movieCredit.job && jobs?.some(job => movieCredit.job?.includes(job))) || !jobs) &&
+          ratedMovieIds.includes(movieCredit.id)
       )
     : person?.movie_credits?.cast.filter(item => ratedMovieIds.includes(item.id))
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const mergedCredits = mergeCreditsByMovie(ratedMovieCredits)
   const movieCreditsGrid = (
-      <ul className="flex md:grid md:grid-cols-4 gap-4 -mx-6 mt-2 md:mt-4 px-6 overflow-x-auto">
-        {ratedMovieCredits
-          ?.sort((a, b) => Number(b.vote_average) - Number(a.vote_average))
-          .slice(0, 4)
-          .map(item => (
-            <Movie key={item.credit_id} movie={item} fixedWidth />
-          ))}
-      </ul>
+    <ul className="flex md:grid md:grid-cols-4 gap-4 -mx-6 mt-2 px-6 overflow-x-auto">
+      {mergedCredits
+        ?.sort((a, b) => Number(new Date(b.release_date).getFullYear() ) - Number(new Date(a.release_date).getFullYear()))
+        .slice(0, isCollapsed ? 4 : undefined)
+        .map(item => (
+          <Movie key={item.credit_id} movie={item} fixedWidth />
+        ))}
+    </ul>
   )
   return (
     <>
@@ -64,12 +67,12 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
                 {person?.deathday ? ` – ${new Date(person.deathday).getFullYear()}` : ''}
               </p>
             </div>
-            <div className="md:flex justify-between gap-4 mt-auto mb-2">
+            <div className="md:flex justify-between gap-4 mt-auto">
               <h4>
-                <VideoIcon className="inline" /> {ratedMovieCredits?.length} movies you&apos;ve seen
+                <VideoIcon className="inline" /> {mergedCredits?.length} movies you&apos;ve seen
               </h4>
-              <button onClick={() => setIsOpen(true)} className="underline">
-                See all
+              <button onClick={() => setIsCollapsed(prev => !prev)} className="underline">
+                {isCollapsed ? 'Show all' : 'Show less'}
               </button>
             </div>
             {isDesktop && movieCreditsGrid}
@@ -77,7 +80,7 @@ export const Person: FC<PersonProps> = ({ personId, ratedMovieIds, department, j
         </div>
         {!isDesktop && movieCreditsGrid}
       </div>
-      {person?.id && <PersonModal personId={person.id} isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {person?.id && isOpen && <PersonModal personId={person.id} isOpen={isOpen} setIsOpen={setIsOpen} />}
     </>
   )
 }

@@ -12,9 +12,7 @@ export const jobs = {
     { name: 'Casting', value: ['Casting'] },
   ],
   writing: [
-    { name: 'Writer', value: ['Writer'] },
-    { name: 'Screenplay', value: ['Screenplay'] },
-    { name: 'Story', value: ['Story'] },
+    { name: 'Writer', value: ['Writer', 'Screenplay', 'Story'] },
     { name: 'Novel', value: ['Novel', 'Graphic Novel', 'Author'] },
     { name: 'Comic Book', value: ['Comic Book'] },
     { name: 'Characters', value: ['Characters'] },

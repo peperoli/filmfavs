@@ -5,7 +5,7 @@ import Image from 'next/legacy/image'
 import { useRatedMovies } from '@/hooks/useRatedMovies'
 import { usePerson } from '@/hooks/usePerson'
 import { Movie } from './Movie'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { mergeCreditsByMovie } from '@/lib/mergeCreditsByMovie'
 
 interface PersonModalProps {
   personId: number
@@ -23,7 +23,7 @@ export const PersonModal = ({ personId, isOpen, setIsOpen }: PersonModalProps) =
   const ratedMovieCredits = [...castCredits, ...crewCredits].filter(item =>
     ratedMovieIds?.includes(item.id)
   )
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const mergedCredits = mergeCreditsByMovie(ratedMovieCredits)
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} headline={person?.name ?? ''}>
       <div className="flex items-start gap-6">
@@ -82,7 +82,7 @@ export const PersonModal = ({ personId, isOpen, setIsOpen }: PersonModalProps) =
       </div>
       <h4 className="mt-4 mb-2">Your Rated Movies</h4>
       <ul className="flex flex-col gap-2">
-        {ratedMovieCredits
+        {mergedCredits
           ?.sort(
             (a, b) =>
               Number(b.release_date.replaceAll('-', '')) -
