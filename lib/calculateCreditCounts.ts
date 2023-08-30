@@ -1,7 +1,8 @@
 export const calculateCreditCounts = function calculateCreditCounts(
   movieCredits: any[],
   department?: string,
-  jobs?: string[]
+  jobs?: string[],
+  gender?: number | null
 ) {
   const creditCounts: { [key: number]: number } = {}
 
@@ -11,8 +12,10 @@ export const calculateCreditCounts = function calculateCreditCounts(
 
     for (let index = 0; index < credits.length; index++) {
       const credit = credits[index]
+      const matchingJobs = jobs?.includes(credit.job) || !jobs
+      const matchingGender = credit.gender === gender || gender === undefined || gender === null
 
-      if ((credit.department === department || !department) && (jobs?.includes(credit.job) || !jobs))
+      if ((credit.department === department || !department) && matchingJobs && matchingGender)
         if (!creditCounts[credit.id]) {
           creditCounts[credit.id] = 1
         } else {
